@@ -16,6 +16,8 @@ use crate::errors::Error;
 use crate::json::{self, Deserialize, Deserializer, JsonObject, JsonValue, Serialize, Serializer};
 use crate::serde;
 use crate::{Feature, FeatureCollection, Geometry};
+#[cfg(feature = "async_graphql")]
+use async_graphql::scalar;
 use std::convert::TryFrom;
 use std::fmt;
 use std::iter::FromIterator;
@@ -49,6 +51,9 @@ pub enum GeoJson {
     Feature(Feature),
     FeatureCollection(FeatureCollection),
 }
+
+#[cfg(feature = "async_graphql")]
+scalar!(GeoJson);
 
 impl<'a> From<&'a GeoJson> for JsonObject {
     fn from(geojson: &'a GeoJson) -> JsonObject {
